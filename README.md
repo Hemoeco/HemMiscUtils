@@ -1,2 +1,3 @@
 # HemMiscUtils
-Shared miscelaneous utilities
+Shared miscelaneous utilities.
+Copy tested useful routines here.
