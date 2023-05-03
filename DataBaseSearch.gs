@@ -1,10 +1,17 @@
 /* Se establece conexión con la base de datos (IT_Rentas), crea un objeto contenedor 
 con todos los elementos de los campos indicados, de 'CataEmpleados' y 'CataSucursales'. */
 
+function mockTest(){
+  //let correo = 'alex.lopez@acmaq.com.mx';
+  let correo = 'antonio.vargas@hemoeco.com';
+  //let correo = 'juanito@prueba.com';
+  obtenerDatos(correo);
+  return;
+
+}
+
 // Se establecen las instancias para la busqueda en la BD.
 function obtenerDatos(correo) {
-  //let correo = 'antonio.vargas@hemoeco.com';
-  //let correo = 'juanito@prueba.com';
   let infoEmpleado = {
     idSucNom: undefined,
     apellidos: undefined,
@@ -23,7 +30,7 @@ function obtenerDatos(correo) {
     return;  // Al no regresar nada, va a buscar en las hojas de calculo.
   }
 
-  //while (rs.next()) {         // Antes servía con el while, luego dejó de hacerlo.
+  //while (rs.next()) {         // Antes servia con el while, luego ya no.
       infoEmpleado.idSucNom = rs.getInt('SUCURSALNOMINA');
       infoEmpleado.apellidos = rs.getString('APELLIDOS');
       infoEmpleado.nombre = rs.getString('NOMBRE');
@@ -32,9 +39,15 @@ function obtenerDatos(correo) {
 
   query = `select CORREOELECTRONICO from CataEmpleados where IDEMPLEADO = ${infoEmpleado.jefe}`;
   rs = ejecutaQuery(query);
-  while(rs.next()){
-    infoEmpleado.jefe = rs.getString('CORREOELECTRONICO');
+  
+  if(!rs.next()){
+    Logger.log("No se encontró el valor en la base de datos.");
+    return;  // Al no regresar nada, va a buscar en las hojas de calculo.
   }
+
+  //while(rs.next()){             // Antes servia con el while, luego ya no.
+    infoEmpleado.jefe = rs.getString('CORREOELECTRONICO');
+  //}
   infoEmpleado.idSucNom = asignarSuc(infoEmpleado);
 
   infoEmpleado.nombre = infoEmpleado.idSucNom + infoEmpleado.apellidos + ' ' + infoEmpleado.nombre;
